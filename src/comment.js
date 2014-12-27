@@ -97,6 +97,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="markdown.json" />,
+  <CommentBox url="comment.json" />,
   document.getElementById('content')
 );
