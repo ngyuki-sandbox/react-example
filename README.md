@@ -150,3 +150,8 @@ FireBug とかで見てみると `are` の箇所だけが更新されている�
 # marked-react
 
 https://github.com/spicyj/marked-react
+
+```
+npm install --save react
+npm install --save spicyj/marked-react
+```
