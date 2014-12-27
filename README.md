@@ -146,3 +146,7 @@ React.render(
 FireBug とかで見てみると `are` の箇所だけが更新されていることがわかる。
 
 `are` の箇所は無理やり書き換えてもすぐに元に戻るが、ore の箇所は更新されていないのでそのまま残る。
+
+# marked-react
+
+https://github.com/spicyj/marked-react
