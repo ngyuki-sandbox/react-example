@@ -36,7 +36,13 @@ var Markdown = React.createClass({
   },
 });
 
-React.render(
+var r = React.render(
   React.createElement(MarkdownBox, null),
   document.getElementById('content')
 );
+
+setTimeout(function(){
+  r.setState({text: '#aaa\n\naaaaa\n\n#bbb\n\nbbbbb'})
+}, 1000);
+
+
