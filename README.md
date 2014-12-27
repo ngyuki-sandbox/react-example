@@ -95,3 +95,54 @@ http://facebook.github.io/react/docs/tutorial.html
     - `var author = this.refs.author.getDOMNode().value.trim();`
 
 ----
+
+# 差分更新
+
+*index.html*
+
+```html
+<html>
+  <head>
+    <title>Hello React</title>
+    <script src="http://fb.me/react-0.12.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/jsx" src="src/timer.js"></script>
+  </body>
+</html>
+```
+
+*src/timer.js*
+
+```js
+var Timer = React.createClass({
+  getInitialState: function() {
+    return {date: new Date()};
+  },
+  componentDidMount: function() {
+    setInterval((function(){
+      this.setState({date: new Date()});
+    }).bind(this), 1000);
+  },
+  render: function() {
+    return (
+      <div className="Timer">
+        <div>oreore</div>
+        <div>{this.state.date.toString()}</div>
+        <div>areare</div>
+      </div>
+    );
+  },
+});
+
+React.render(
+  <Timer />,
+  document.getElementById('content')
+);
+```
+
+FireBug とかで見てみると `are` の箇所だけが更新されていることがわかる。
+
+`are` の箇所は無理やり書き換えてもすぐに元に戻るが、ore の箇所は更新されていないのでそのまま残る。
