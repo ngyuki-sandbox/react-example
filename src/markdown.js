@@ -12,6 +12,11 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
+  handleCommentSubmit: function(comment) {
+    var comments = this.state.data;
+    var newComments = comments.concat([comment]);
+    this.setState({data: newComments});
+  },
   getInitialState: function() {
     // コンポーネントのライフサイクルで一度だけ呼び出されてコンポーネントの初期状態を決定する
     return {data: []};
@@ -19,14 +24,13 @@ var CommentBox = React.createClass({
   componentDidMount: function() {
     // コンポーネントの生成時に自動的に呼ばれる
     this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
   }
@@ -68,16 +72,31 @@ var Comment = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = this.refs.author.getDOMNode().value.trim();
+    var text = this.refs.text.getDOMNode().value.trim();
+    if (!text || !author) {
+      return;
+    }
+    // 親コンポーネントの CommentBox にコールバックする
+    this.props.onCommentSubmit({author: author, text: text});
+    this.refs.author.getDOMNode().value = '';
+    this.refs.text.getDOMNode().value = '';
+    return;
+  },
   render: function() {
     return (
-      <div className="commentForm">
-        Hello, world! I am a CommentForm.
-      </div>
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
+      </form>
     );
   }
 });
 
 React.render(
-  <CommentBox url="markdown.json" pollInterval={2000} />,
+  <CommentBox url="markdown.json" />,
   document.getElementById('content')
 );
